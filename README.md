@@ -4,7 +4,7 @@
 
 ## 安装方式
 
-Chrome：解压后，进入 chrome://extensions/ 页面，打开开发者模式，然后直接加载文件夹即可！
+Chrome：解压后，进入 chrome://extensions/ 页面，打开开发者模式，然后直接加载扩展程序文件夹即可！
 
 ## 功能列表
 
