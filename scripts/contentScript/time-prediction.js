@@ -2,7 +2,7 @@
 function showReadingTime() {
     const article = $('article')
 
-    if (!article) return
+    if (!article.length) return
 
     const text = article.text()
     const words = text.match(/\S+/g)
@@ -22,4 +22,4 @@ function showReadingTime() {
 }
 
 showReadingTime()
-console.log('reading_time.js is running...')
+console.log('reading-time.js is running...')

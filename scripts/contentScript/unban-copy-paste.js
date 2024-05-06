@@ -13,7 +13,7 @@ addEventListener('cut', function (e) {
     e.stopPropagation()
 }, true)
 
-// Unban Select
+// 学习通
 $(function () {
     $('body').removeAttr('onselectstart')
     $('html').css('user-select', 'unset')
@@ -28,4 +28,13 @@ $(function () {
     }
 })
 
-console.log('unban_copy_paste.js is running...')
+// iWrite
+setTimeout(() => {
+    function myEditor_paste(o, html) {
+        return true
+    }
+
+    UE.getEditor('editor').addListener('beforepaste', myEditor_paste)
+}, 300)
+
+console.log('unban-copy-paste.js is running...')

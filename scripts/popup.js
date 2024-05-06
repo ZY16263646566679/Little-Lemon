@@ -42,5 +42,4 @@ function emitTips() {
     }, 1400)
 }
 
-
 x.onclick = setting.onclick = emitTips
