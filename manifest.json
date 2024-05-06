@@ -1,0 +1,42 @@
+{
+    "manifest_version": 3,
+    "name": "小柠",
+    "icons": {
+        "16": "img/小柠.png",
+        "32": "img/小柠.png",
+        "48": "img/小柠.png",
+        "128": "img/小柠.png"
+    },
+    "description": "一款强大、功能丰富的扩展 developed by Pzy.",
+    "version": "1.0",
+    "action": {
+        "default_popup": "index.html"
+    },
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["lib/jquery.js"],
+        "run_at": "document_start",
+        "world": "MAIN"
+    }],
+    "background": {
+        "type": "module",
+        "service_worker": "service_worker.js"
+    },
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "permissions": [
+        "tabs",
+        "storage",
+        "activeTab",
+        "scripting"
+    ],
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+B",
+                "mac": "Command+B"
+            }
+        }
+    }
+}

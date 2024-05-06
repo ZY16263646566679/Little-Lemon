@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小柠</title>
+    <link rel="stylesheet" href="styles/index.css">
+</head>
+
+<body>
+    <div class="logo">
+        <img src="img/小柠.png" alt="">
+    </div>
+    <h2 class="title">小柠—您的私人助手</h2>
+    <hr>
+    <h3 class="subtitle">功能</h3>
+    <ul class="function-list">
+        <li class="function-item">
+            阅读时间预测
+            <div class="toggle-switch">
+                <input class="toggle-input" id="time-prediction" type="checkbox">
+                <label class="toggle-label" for="time-prediction"></label>
+            </div>
+        </li>
+        <li class="function-item">
+            专注模式
+            <div class="toggle-switch">
+                <input class="toggle-input" id="focus-mode" type="checkbox">
+                <label class="toggle-label" for="focus-mode"></label>
+            </div>
+        </li>
+        <li class="function-item">
+            解除禁止复制/粘贴
+            <div class="toggle-switch">
+                <input class="toggle-input" id="unban-copy-paste" type="checkbox">
+                <label class="toggle-label" for="unban-copy-paste"></label>
+            </div>
+        </li>
+        <li class="function-item">
+            其它
+            <div class="toggle-switch">
+                <input class="toggle-input" id="others" type="checkbox" disabled>
+                <label class="toggle-label" for="others" id="x"></label>
+            </div>
+        </li>
+    </ul>
+    <hr>
+    <footer>
+        <img src="img/setting.svg" alt="" title="设置" id="setting">
+    </footer>
+    <script type="module" src="/scripts/popup.js"></script>
+</body>
+
+</html>
