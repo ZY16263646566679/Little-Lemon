@@ -1,17 +1,12 @@
-import { initStore, accessStore, updateStore } from './scripts/store/store.js'
-
-// 初始化
-initStore()
-
 // scripting api
-const scripting = chrome.scripting
-const register = scripting.registerContentScripts
-const unregister = scripting.unregisterContentScripts
-const getRegistered = scripting.getRegisteredContentScripts
+const {
+    registerContentScripts,
+    unregisterContentScripts,
+    getRegisteredContentScripts
+} = chrome.scripting
 
 // runtime api
-const runtime = chrome.runtime
-const onMessage = runtime.onMessage
+const { onMessage } = chrome.runtime
 
 /**
  * 检查是否已注册指定内容脚本
@@ -20,7 +15,7 @@ const onMessage = runtime.onMessage
 async function hasRegistered(scriptIds) {
     if (typeof scriptIds === 'string')
         scriptIds = [scriptIds]
-    const scripts = await getRegistered({ ids: scriptIds })
+    const scripts = await getRegisteredContentScripts({ ids: scriptIds })
     return scripts.length > 0
 }
 
@@ -28,62 +23,79 @@ async function hasRegistered(scriptIds) {
 const scripts = {
     timePrediction: {
         run: async () => {
-            await register([{
+            await registerContentScripts([{
                 id: 'timePrediction',
-                js: ['/scripts/contentScript/time-prediction.js'],
+                js: ['/scripts/contentScript/time_prediction.js'],
                 matches: ['<all_urls>'],
                 world: 'MAIN'
             }])
         },
         cancel: async () => {
-            await unregister({ ids: ['timePrediction'] })
+            await unregisterContentScripts({ ids: ['timePrediction'] })
         }
     },
     focusMode: {
         run: async () => {
-            await register([{
+            await registerContentScripts([{
                 id: 'focusMode',
-                css: ['/styles/focus-mode.css'],
-                matches: ['<all_urls>']
+                js: ['/scripts/contentScript/focus_mode.js'],
+                matches: ['<all_urls>'],
+                world: 'MAIN',
             }])
         },
         cancel: async () => {
-            await unregister({ ids: ['focusMode'] })
+            await unregisterContentScripts({ ids: ['focusMode'] })
         }
     },
     unbanCopyPaste: {
         run: async () => {
-            await register([{
+            await registerContentScripts([{
                 id: 'unbanCopyPaste',
-                js: ['/scripts/contentScript/unban-copy-paste.js'],
+                js: ['/scripts/contentScript/unban_copy_paste.js'],
                 matches: ['<all_urls>'],
                 world: 'MAIN',
-                // runAt: 'document_start'
             }])
         },
         cancel: async () => {
-            await unregister({ ids: ['unbanCopyPaste'] })
+            await unregisterContentScripts({ ids: ['unbanCopyPaste'] })
         }
     }
 }
 
-// 接受消息
-onMessage.addListener(async (message) => {
-    if (!(message.switchName in scripts))
+// 开关切换
+async function ToggleSwitch(switchName) {
+    if (!(switchName in scripts))
         throw '功能尚未实现！'
 
-    const currentState = await accessStore(message.switchName)
-
-    if (currentState) {
+    if (await hasRegistered(switchName))
         // 注销内容脚本
-        if (await hasRegistered(message.switchName))
-            await scripts[message.switchName].cancel()
-    } else {
+        await scripts[switchName].cancel()
+    else
         // 注册内容脚本
-        if (!await hasRegistered(message.switchName))
-            await scripts[message.switchName].run()
+        await scripts[switchName].run()
+}
+
+// 获取脚本注册状态
+async function getScriptStatus(switchName) {
+    return await hasRegistered(switchName)
+}
+
+// 消息响应器
+onMessage.addListener((message, sender, sendResponse) => {
+    const { type, data } = message
+
+    switch (type) {
+        case 'toggleSwitch':
+            ToggleSwitch(data.switchName)
+            break
+        case 'getScriptStatus':
+            getScriptStatus(data.switchName)
+                .then(sendResponse)
+            break
+        default:
+            console.log('未知消息类型：', type)
+            break
     }
 
-    // 更新开关状态
-    await updateStore(message.switchName, !currentState)
+    return true // 表示异步调用 sendResponse
 })

@@ -1,3 +1,9 @@
+/**
+ * 开关状态存储
+ * 
+ * 现在暂时无用，已用查询脚本注册状态替换
+ */
+
 // 初始化状态
 export async function initStore() {
     await chrome.storage.session.set({

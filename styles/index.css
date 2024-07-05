@@ -1,16 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-ul {
-    list-style: none;
-}
+@import "reset.css";
 
 body {
     width: 250px;
     color: rgb(194, 222, 100);
+    overflow: hidden;
 }
 
 .logo {
@@ -56,7 +49,7 @@ h3 {
             .toggle-input {
                 display: none;
 
-                &:checked+.toggle-label {
+                &:checked + .toggle-label {
                     background-color: #4caf50;
 
                     &::before {
@@ -89,23 +82,44 @@ h3 {
                     transition: transform 0.3s;
                 }
             }
+
+        }
+
+        .enter-button {
+            padding-right: 15px;
+            .icon-enter::before {
+                display: block;
+                scale: 2;
+            }
         }
     }
 }
 
 footer {
     display: flex;
-    padding: 5px 8px;
+    padding: 5px 0;
     justify-content: flex-end;
 
-    img {
-        width: 20px;
-        height: 20px;
-        transition: 1s;
+    .iconfont {
+        font-size: 18px;
+        color: black;
+        margin-right: 10px;
+
+        &:hover {
+            color: #4caf50;
+            cursor: pointer;
+        }
+    }
+
+    .icon-update {
+        scale: 1.1;
+    }
+
+    .icon-setting {
+        transition: rotate .8s;
 
         &:hover {
             rotate: 180deg;
-            cursor: pointer;
         }
     }
 }
